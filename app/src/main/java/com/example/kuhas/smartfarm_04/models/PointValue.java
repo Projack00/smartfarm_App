@@ -1,39 +1,24 @@
 package com.example.kuhas.smartfarm_04.models;
 
-class PointValue {
-    public int humidity, temperature;
-    public String time;
+public class PointValue {
+
+    int xValue, yValue;
 
     public PointValue() {
     }
 
-    public PointValue(int humidity, int temperature, String time) {
-        this.humidity = humidity;
-        this.temperature = temperature;
-        this.time = time;
+    public PointValue(int xValue, int yValue) {
+        this.xValue = xValue;
+        this.yValue = yValue;
     }
 
-    public int getHumidity() {
-        return humidity;
+    public int getxValue() {
+        return xValue;
     }
 
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
+
+    public int getyValue() {
+        return yValue;
     }
 
-    public int getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(int temperature) {
-        this.temperature = temperature;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }

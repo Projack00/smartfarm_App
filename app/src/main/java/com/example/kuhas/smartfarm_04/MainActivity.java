@@ -189,11 +189,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void StatusMode(DataSnapshot dataSnapshot) {
-
-
-    }
-
     private void LogDHT() {
         refDHT = database.getReference("logDHT");
 //        refDHT = database.getReference("logDHT").limitToFirst(10);

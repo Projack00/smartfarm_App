@@ -4,32 +4,30 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.example.kuhas.smartfarm_04.models.DHTGraph;
+import com.example.kuhas.smartfarm_04.models.Graph_DHT_;
+import com.example.kuhas.smartfarm_04.models.PointValue;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.example.kuhas.smartfarm_04.R;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class Grapg extends AppCompatActivity {
 
-    FirebaseDatabase database;
-    DatabaseReference refDHT;
+    public FirebaseDatabase database;
+    public DatabaseReference reference;
 
-    GraphView graphView;
-    LineGraphSeries series;
-    private List<Integer> integerList = new ArrayList<Integer>();
+    public GraphView graph;
+    public LineGraphSeries seriesTemp, seriesHumid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,30 +35,88 @@ public class Grapg extends AppCompatActivity {
         setContentView(R.layout.activity_grapg);
 
         database = FirebaseDatabase.getInstance();
-        refDHT = database.getReference("logDHT");
+        reference = database.getReference("logDHT");
+
+        graph = (GraphView) findViewById(R.id.graphView);
+        seriesTemp = new LineGraphSeries();
+        seriesHumid = new LineGraphSeries();
+
+        graph.addSeries(seriesTemp);
+        graph.addSeries(seriesHumid);
+        graph.getViewport().setScrollable(true); // enables horizontal scrolling
+        graph.getViewport().setScrollableY(true); // enables vertical scrolling
+        graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+        graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+
+        seriesHumid.setDrawDataPoints(true);
+        seriesHumid.setDataPointsRadius(10);
+        seriesHumid.setThickness(8);
+
+        seriesTemp.setDrawDataPoints(true);
+        seriesTemp.setDataPointsRadius(10);
+        seriesTemp.setThickness(8);
+//        graph.getSecondScale().setMinY(0);
+//        graph.getSecondScale().setMaxY(100);
+//        setList();
+
+
     }
 
-    private void foSeries(){
-    }
-
-    private void ThreeSeries() {
-        graphView = (GraphView) findViewById(R.id.graphView);
-        series = new LineGraphSeries();
-        graphView.addSeries(series);
-
-        refDHT.addValueEventListener(new ValueEventListener() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+//
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                DataPoint[] dpX = new DataPoint[(int) dataSnapshot.getChildrenCount()];
+//                DataPoint[] dpY = new DataPoint[(int) dataSnapshot.getChildrenCount()];
+//
+//                int index = 0;
+//
+//                for (DataSnapshot myDataSnapshot : dataSnapshot.getChildren()) {
+//                    PointValue pointValue = myDataSnapshot.getValue(PointValue.class);
+//                    dpX[index] = new DataPoint(index, pointValue.getxValue());
+//                    dpY[index] = new DataPoint(index, pointValue.getyValue());
+//                    index++;
+//                }
+//                seriesX.resetData(dpX);
+//                seriesX.setColor(Color.RED);
+//                seriesY.resetData(dpY);
+//                seriesY.setColor(Color.BLUE);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                sampleLastSeries(dataSnapshot);
-                DataPoint[] dp = new DataPoint[(int) dataSnapshot.getChildrenCount()];
+                DataPoint[] dptemp = new DataPoint[(int) dataSnapshot.getChildrenCount()];
+                DataPoint[] dphumid = new DataPoint[(int) dataSnapshot.getChildrenCount()];
+
                 int index = 0;
-                for (DataSnapshot myDataSnapshot1 : dataSnapshot.getChildren()) {
-                    DHTGraph pointValue = myDataSnapshot1.getValue(DHTGraph.class);
-                    dp[index] = new DataPoint(pointValue.getHumidity(), pointValue.getTemperature());
+
+                for (DataSnapshot myDataSnapshot : dataSnapshot.getChildren()) {
+                    Graph_DHT_ conGraphDht = myDataSnapshot.getValue(Graph_DHT_.class);
+                    dptemp[index] = new DataPoint(index, conGraphDht.getTemperature());
+                    dphumid[index] = new DataPoint(index, conGraphDht.getHumidity());
+
                     index++;
-                    Log.i("tag", "tag_-=>" + index + "getHumidity()=>" + pointValue.getHumidity());
                 }
-//                series.resetData(dp);
+                seriesTemp.setTitle("อุณหภูมิ");
+                seriesTemp.resetData(dptemp);
+                seriesTemp.setColor(Color.RED);
+
+                seriesHumid.setTitle("ความชื้น");
+                seriesHumid.resetData(dphumid);
+                seriesHumid.setColor(Color.BLUE);
+
+                graph.getLegendRenderer().setVisible(true);
+                graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
             }
 
             @Override
@@ -70,90 +126,4 @@ public class Grapg extends AppCompatActivity {
         });
     }
 
-    private void sampleLastSeries(DataSnapshot dataSnapshot) {
-        List<Integer> listHumidity = new ArrayList<Integer>();
-        for (DataSnapshot myDataSnapshot : dataSnapshot.getChildren()) {
-            DHTGraph pointValue = myDataSnapshot.getValue(DHTGraph.class);
-        }
-        Integer[] DataInt = listHumidity.toArray(new Integer[]{});
-
-        int num = (int) dataSnapshot.getChildrenCount();
-
-        for (int i = 0; i <= num; i++) {
-            integerList.add(i);
-
-        }
-        Integer[] intNum = integerList.toArray(new Integer[]{});
-
-        for (Integer element : intNum) {
-            System.out.println(element);
-        }
-    }
-
-    private void sampleSeries() {
-//        GraphViewSeries exampleSeries = new GraphViewSeries(new GraphView.GraphViewData[]{
-//                new GraphView.GraphViewData(1, 2.0d)
-//                , new GraphView.GraphViewData(2, 1.5d)
-//                , new GraphView.GraphViewData(3, 2.5d)
-//                , new GraphView.GraphViewData(4, 1.0d)
-//        });
-
-//        graphView.addSeries(exampleSeries);
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout);
-        layout.addView(graphView);
-    }
-
-    private void sampleMultipleSeries() {
-        String[] months = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-
-        int[] index = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-
-//        int[] incomeA = {50, 60, 70, 50, 55, 68, 35, 25, 33, 44, 44, 43, 50, 60, 70, 50, 55, 68, 35, 25, 33, 44, 44, 43};
-        int[] incomeB = {35, 36, 35, 37, 38, 38, 36, 37, 36, 35, 38, 38, 36, 37, 36, 35, 38, 38, 36, 37, 36, 35, 35, 34};
-//        Log.i("TAG", "incomeA=>" + incomeA);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        List<Integer> intList = new ArrayList<Integer>();
-        for (int i = 0; i <= 50; i++) {
-            intList.add(i);
-        }
-        Integer[] intArr = intList.toArray(new Integer[]{});
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        List<Integer> incomeA1 = new ArrayList<Integer>();
-        for (int i = 0; i <= 100; i++) {
-            incomeA1.add(i);
-        }
-        Integer[] incomeA = incomeA1.toArray(new Integer[]{});
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////
-
-        int num = 100;
-//        GraphView.GraphViewData[] data = new GraphView.GraphViewData[intArr.length];
-        for (int i = 0; i < intArr.length; i++) {
-//            data[i] = new GraphView.GraphViewData(i, incomeA[i]);
-        }
-//        GraphViewSeries seriesA = new GraphViewSeries("อุณหภูมิ",
-//                new GraphViewSeries.GraphViewSeriesStyle(Color.RED, 5), data);
-
-//        data = new GraphView.GraphViewData[index.length];
-        for (int i = 0; i < index.length; i++) {
-//            data[i] = new GraphView.GraphViewData(i, incomeB[i]);
-        }
-//        GraphViewSeries seriesB = new GraphViewSeries("ความชืน",
-//                new GraphViewSeries.GraphViewSeriesStyle(Color.BLUE, 5), data);
-
-//        GraphView graphView = new LineGraphView(this, "DHT Series");
-//        graphView.addSeries(seriesA);
-//        graphView.addSeries(seriesB);
-//
-//        graphView.setShowLegend(true);
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout);
-        layout.addView(graphView);
-
-    }
 }

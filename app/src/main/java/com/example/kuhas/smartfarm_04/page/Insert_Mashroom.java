@@ -62,7 +62,8 @@ public class Insert_Mashroom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getValues();
-                if (data.getMode().equals(null)) {
+                String s = data.getMode();
+                if (s.equals("")) {
                     Snackbar.make(v, "Please Edit Name", Snackbar.LENGTH_LONG).show();
 
                 } else {
@@ -75,8 +76,9 @@ public class Insert_Mashroom extends AppCompatActivity {
                                     "\n spin_hum_min  : " + String.valueOf(spin_hum_min.getSelectedItem()),
                             Toast.LENGTH_SHORT).show();
 
-//                    editMode.setText("");
                 }
+                                    editMode.setText("");
+
             }
 
         });
