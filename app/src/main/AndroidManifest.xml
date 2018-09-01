@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kuhas.smartfarm_04">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".page.Grapg" />
-        <activity android:name=".page.Insert_Mashroom"></activity>
+        <activity android:name=".page.Insert_Mashroom" />
+        <activity android:name=".page.Update_Data_Mashroom" />
+        <activity android:name=".page.View_Mushroom_Data" />
+        <activity android:name=".page.Detail_Mushroom" />
+        <activity android:name=".page.Delete_Mushroom"></activity>
     </application>
 
 </manifest>

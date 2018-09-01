@@ -30,8 +30,10 @@ import android.widget.Toast;
 
 import com.example.kuhas.smartfarm_04.models.DHT;
 import com.example.kuhas.smartfarm_04.models.StatusMode_TyperMashroom;
+import com.example.kuhas.smartfarm_04.page.Detail_Mushroom;
 import com.example.kuhas.smartfarm_04.page.Grapg;
 import com.example.kuhas.smartfarm_04.page.Insert_Mashroom;
+import com.example.kuhas.smartfarm_04.page.Update_Data_Mashroom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -125,12 +127,10 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 stringArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
 
-                Log.i("TypeMushroom", String.valueOf(dataSnapshot.child("mode")));
                 for (DataSnapshot myDataSnapshot : dataSnapshot.getChildren()) {
                     StatusMode_TyperMashroom mode_typer = myDataSnapshot.getValue(StatusMode_TyperMashroom.class);
                     stringArrayAdapter.add(mode_typer.getMode());
 
-                    Log.i("TAG", "Dialo g =. " + myDataSnapshot);
                 }
             }
 
@@ -374,9 +374,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -389,13 +386,16 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_gallery) {
+//            Intent intent = new Intent(this, Update_Data_Mashroom.class);
+//            startActivity(intent);
 
         } else if (id == R.id.graph) {
             Intent intent = new Intent(this, Grapg.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(this, Detail_Mushroom.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

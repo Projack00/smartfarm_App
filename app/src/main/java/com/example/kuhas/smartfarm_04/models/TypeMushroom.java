@@ -7,7 +7,9 @@ public class TypeMushroom {
     private int TemMax;
     private String Mode;
 
+
     public TypeMushroom() {
+
     }
 
     public TypeMushroom(int temMin, int hummidMin, int hummidMax, int temMax, String mode) {
@@ -17,6 +19,7 @@ public class TypeMushroom {
         TemMax = temMax;
         Mode = mode;
     }
+
 
     public int getTemMin() {
         return TemMin;
