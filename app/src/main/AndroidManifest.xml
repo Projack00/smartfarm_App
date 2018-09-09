@@ -26,7 +26,13 @@
         <activity android:name=".page.Update_Data_Mashroom" />
         <activity android:name=".page.View_Mushroom_Data" />
         <activity android:name=".page.Detail_Mushroom" />
-        <activity android:name=".page.Delete_Mushroom"></activity>
+        <activity android:name=".page.Delete_Mushroom" />
+
+        <service
+            android:name=".page.NotificationService"
+            android:exported="false" />
+
+        <activity android:name=".page.AlertNotification"></activity>
     </application>
 
 </manifest>

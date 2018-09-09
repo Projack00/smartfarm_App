@@ -33,6 +33,7 @@ import com.example.kuhas.smartfarm_04.models.StatusMode_TyperMashroom;
 import com.example.kuhas.smartfarm_04.page.Detail_Mushroom;
 import com.example.kuhas.smartfarm_04.page.Grapg;
 import com.example.kuhas.smartfarm_04.page.Insert_Mashroom;
+import com.example.kuhas.smartfarm_04.page.NotificationService;
 import com.example.kuhas.smartfarm_04.page.Update_Data_Mashroom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,7 +77,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//////////////////// startService //////////////////////////////////////////////////////////////////
+        startService(new Intent(this, NotificationService.class));
+////////////////////// END startService ////////////////////////////////////////////////////////////
 
         database = FirebaseDatabase.getInstance();
 
@@ -385,7 +388,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, Insert_Mashroom.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_gallery) {
+//        } else if (id == R.id.nav_gallery) {
 //            Intent intent = new Intent(this, Update_Data_Mashroom.class);
 //            startActivity(intent);
 

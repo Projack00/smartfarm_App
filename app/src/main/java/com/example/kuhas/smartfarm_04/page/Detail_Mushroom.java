@@ -27,9 +27,6 @@ public class Detail_Mushroom extends AppCompatActivity {
         fireClient = new Detail_Data(this, listView);
         fireClient.refreshData();
 
-
-        hDetail_Data holder = new hDetail_Data();
-
     }
 
 }

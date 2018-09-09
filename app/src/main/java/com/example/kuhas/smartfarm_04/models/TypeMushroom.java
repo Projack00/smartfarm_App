@@ -6,20 +6,12 @@ public class TypeMushroom {
     private int HummidMax;
     private int TemMax;
     private String Mode;
+    private String key;
 
 
     public TypeMushroom() {
 
     }
-
-    public TypeMushroom(int temMin, int hummidMin, int hummidMax, int temMax, String mode) {
-        TemMin = temMin;
-        HummidMin = hummidMin;
-        HummidMax = hummidMax;
-        TemMax = temMax;
-        Mode = mode;
-    }
-
 
     public int getTemMin() {
         return TemMin;
@@ -59,5 +51,13 @@ public class TypeMushroom {
 
     public void setMode(String mode) {
         Mode = mode;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

@@ -3,15 +3,10 @@ package com.example.kuhas.smartfarm_04.page;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
-import com.example.kuhas.smartfarm_04.FirebaseClient.fView_Data;
 import com.example.kuhas.smartfarm_04.R;
-import com.example.kuhas.smartfarm_04.models.Mushroom_Data_interface;
-import com.example.kuhas.smartfarm_04.models.TypeMushroom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +41,6 @@ public class View_Mushroom_Data extends AppCompatActivity {
         reference.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("TAG", " key => " + dataSnapshot.getValue());
                 view.setText(dataSnapshot.child("mode").getValue().toString());
                 textHumidMin.setText(dataSnapshot.child("hummidMin").getValue().toString());
                 textHumidMax.setText(dataSnapshot.child("hummidMax").getValue().toString());

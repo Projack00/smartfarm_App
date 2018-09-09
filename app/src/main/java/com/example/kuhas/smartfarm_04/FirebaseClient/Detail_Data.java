@@ -34,14 +34,16 @@ public class Detail_Data {
 
 
     public void refreshData() {
-        load_data.clear();
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                load_data.clear();
+
                 for (DataSnapshot myDataSnapshot : dataSnapshot.getChildren()) {
 
                     Load_Data_ data = new Load_Data_();
                     data.setMode(myDataSnapshot.getValue(Load_Data_.class).getMode());
+                    data.setKey(myDataSnapshot.getValue(Load_Data_.class).getKey());
                     load_data.add(data);
 
                 }

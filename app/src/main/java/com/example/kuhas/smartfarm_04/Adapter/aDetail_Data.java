@@ -50,6 +50,9 @@ public class aDetail_Data extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
+
+        final String KEY = data_s.get(position).getKey();
+
         if (inflater == null) {
             inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -62,8 +65,10 @@ public class aDetail_Data extends BaseAdapter {
         holder.bView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(c, View_Mushroom_Data.class);
-                intent.putExtra("View", data_s.get(position).getMode());
+                intent.putExtra("View", data_s.get(position).getKey());
                 c.startActivity(intent);
             }
         });
@@ -72,7 +77,7 @@ public class aDetail_Data extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(c, Update_Data_Mashroom.class);
-                intent.putExtra("View", data_s.get(position).getMode());
+                intent.putExtra("View", KEY);
                 c.startActivity(intent);
             }
         });
@@ -80,17 +85,11 @@ public class aDetail_Data extends BaseAdapter {
         holder.bDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Log.i("key","key = >"+KEY);
+//
                 Intent intent = new Intent(c, Delete_Mushroom.class);
-                intent.putExtra("View", data_s.get(position).getMode());
+                intent.putExtra("View", KEY);
                 c.startActivity(intent);
-
-//                String Child = data_s.get(position).getMode();
-//
-//                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                DatabaseReference reference = database.getReference("TypeMushroom").child(Child);
-//
-//                reference.removeValue();
-
             }
         });
         return convertView;

@@ -3,6 +3,7 @@ package com.example.kuhas.smartfarm_04.page;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,13 +62,16 @@ public class Insert_Mashroom extends AppCompatActivity {
         Insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 getValues();
                 String s = data.getMode();
                 if (s.equals("")) {
                     Snackbar.make(v, "Please Edit Name", Snackbar.LENGTH_LONG).show();
 
                 } else {
-                    ref.child(data.getMode()).setValue(data);
+                    ref.child(s).setValue(data);
+
+                    Log.i("key", "get key id =>" + ref.push().getKey());
                     Toast.makeText(Insert_Mashroom.this,
                             "OnClickListener : " +
                                     "\n spin_temp_min  : " + String.valueOf(spin_temp_min.getSelectedItem()) +
@@ -77,7 +81,7 @@ public class Insert_Mashroom extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
 
                 }
-                                    editMode.setText("");
+                editMode.setText("");
 
             }
 
@@ -90,6 +94,7 @@ public class Insert_Mashroom extends AppCompatActivity {
         data.setTemMin(Integer.parseInt(String.valueOf(spin_temp_min.getSelectedItem())));
         data.setTemMax(Integer.parseInt(String.valueOf(spin_temp_max.getSelectedItem())));
         data.setMode(editMode.getText().toString());
+        data.setKey(editMode.getText().toString());
     }
 
     private void generateeData() {
